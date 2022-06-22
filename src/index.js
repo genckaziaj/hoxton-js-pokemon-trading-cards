@@ -18,3 +18,52 @@ Tips
 */
 
 console.log(data);
+
+function createCardItem(card) {
+  //   <li class="card">
+  //   <h2 class="card--title">Bulbasaur</h2>
+  //   <img
+  //     width="256"
+  //     class="card--img"
+  //     src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+  //   />
+  //   <ul class="card--text">
+  //     <li>HP: 45</li>
+  //     <li>ATTACK: 49</li>
+  //     <li>DEFENSE: 49</li>
+  //     <li>SPECIAL-ATTACK: 65</li>
+  //     <li>SPECIAL-DEFENSE: 65</li>
+  //     <li>SPEED: 45</li>
+  //   </ul>
+  // </li>
+
+  let liEl = document.createElement("li");
+  liEl.className = "card";
+
+  let h2El = document.createElement("h2");
+  h2El.className = "card--title";
+  h2El.textContent = card.name;
+
+  let imgEl = document.createElement("img");
+  imgEl.width = 256;
+  imgEl.className = "card--img";
+  imgEl.src = card["sprites"]["other"]["official-artwork"]["front_default"];
+
+  let ulEl = document.createElement("ul");
+  ulEl.className = "card--text";
+
+  for (stat of card.stats) {
+    let liStatEl = document.createElement("li");
+    liStatEl.textContent = `${stat.stat.name}: ${stat.base_stat}`.toUpperCase();
+    ulEl.append(liStatEl);
+  }
+
+  liEl.append(h2El, imgEl, ulEl);
+
+  let cardsUl = document.querySelector(".cards");
+  cardsUl.append(liEl);
+}
+
+for (let card of data) {
+  createCardItem(card);
+}
